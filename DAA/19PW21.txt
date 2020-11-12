@@ -1,0 +1,78 @@
+#include<iostream>
+using namespace std;
+
+int merge(int a[],int temp[],int left,int mid,int right)
+{
+    int i,j,k;
+    i=left;//index for left subarray
+    j=mid;//index for right subarray
+    k=left;//index for merged array
+    while((i<=mid-1)&&(j<=right))
+    {
+        if(a[i]<=a[j])
+        {
+            temp[k++]=a[i++];
+        }
+        else
+        {
+            temp[k++]=a[j++];
+        } 
+    }
+    while(i<=mid-1)
+    {
+        temp[k++]=a[i++];
+    }
+    while(j<=right)
+    {
+        temp[k++]=a[j++];
+    }
+    for(int i=left;i<=right;i++)
+    {
+        a[i]=temp[i];
+    }
+}
+
+int mergesort(int a[],int temp[],int left,int right)
+{
+    int mid;
+    if(left<right)
+    {
+        mid=(left+right)/2;
+        //dividing starts here 
+        mergesort(a,temp,left,mid);//left subarray
+        mergesort(a,temp,mid+1,right);//right subarray
+        merge(a,temp,left,mid+1,right);//merge left and right subarrays
+    }
+}
+
+int main()
+{
+    int n;
+    cout<<"\nENTER THE SIZE OF THE ARRAY:";
+    cin>>n;
+    int a[n],b[n];
+    int i;
+    cout<<"\nENTER THE VALUES OF BOYS ARRAY:";
+    for(i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    cout<<"\nENTER THE VALUES OF GIRLS ARRAY:";
+    for(i=0;i<n;i++)
+    {
+        cin>>b[i];
+    }
+    int boy[n],girl[n];
+    mergesort(a,boy,0,n-1);
+    mergesort(b,girl,0,n-1);//ALL ARE SORTED
+    int j=n-1,count=0;
+	for(i=n-1;i>=0;i--) //DESCENDING ORDER
+    {
+	    if(girl[i]%boy[j]==0 || boy[j]%girl[i]== 0)
+        {
+	        count++;
+	    }
+	    j=j-1; 
+	}
+	cout<<"THE NUMBER OF IDEAL PAIRS :"<<count<<endl;
+}
