@@ -14,3 +14,9 @@ sequalize.query('CREATE TRIGGER findltotal BEFORE INSERT ON LMarks'+
 'FOR EACH ROW'+
 'SET NEW.Total =(NEW.Lab1_Mark + NEW.Lab2_Mark + NEW.LabFinal_Mark + NEW.Package_Mark);')
 
+delimiter $$
+CREATE PROCEDURE cgpa1(studentid VARCHAR(6)) 
+BEGIN
+SELECT StudentId,TRUNCATE(SUM(credit*Gradepoint)/SUM(credit),2) AS cgpa,Result FORM semresults WHERE StudentId=studentid;
+END $$
+delimiter ;
